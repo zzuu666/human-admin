@@ -1,13 +1,23 @@
 <template>
   <div id="app">
-    <img src="./assets/logo.png">
-    <router-view></router-view>
+    <div class="app-content">
+      <router-view></router-view>
+    </div>
   </div>
 </template>
 
 <script>
+import Icon from 'iview/src/components/icon'
+import iMenu from 'iview/src/components/menu'
+const iMenuItem = iMenu.Item
+
 export default {
-  name: 'app'
+  name: 'app',
+  components: {
+    Icon,
+    iMenu,
+    iMenuItem
+  }
 }
 </script>
 
@@ -18,6 +28,9 @@ export default {
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
   color: #2c3e50;
-  margin-top: 60px;
+  .app-content {
+    position: relative;
+    width: 100%;
+  }
 }
 </style>
