@@ -9,7 +9,7 @@
 <script>
 import iInput from 'iview/src/components/input'
 import iButton from 'iview/src/components/button'
-import { setStorage, post } from '@/utils'
+import { setStorage, fetch, removeAuthorization } from '@/utils'
 
 export default {
   name: 'sign-in',
@@ -21,7 +21,8 @@ export default {
   },
   methods: {
     submit () {
-      post('human/auth', {
+      removeAuthorization()
+      fetch('human/auth', 'post', {
         username: this.account,
         password: this.password
       }, (res) => {
