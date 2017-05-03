@@ -1,7 +1,7 @@
 <template>
   <div class="profile">
     Profile
-    <i-form label-position="left" label-width="80">
+    <i-form label-position="left" :label-width="80">
       <i-form-item label="输入框">
             <i-input placeholder="请输入"></i-input>
         </i-form-item>
