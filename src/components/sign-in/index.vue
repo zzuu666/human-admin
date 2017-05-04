@@ -28,7 +28,7 @@ export default {
       }, (res) => {
         setStorage('token', res.data.token)
         console.log('login success')
-        this.$router.push({ path: '/' })
+        this.$router.push({ path: '/user' })
       }, (error) => {
         if (error.response) {
           console.log(error.response.data)

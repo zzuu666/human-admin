@@ -1,26 +1,25 @@
 <template>
   <div class="home">
-    <i-menu v-if="user" mode="horizontal" theme="dark" active-name="1">
+    <i-menu v-if="user" mode="horizontal" theme="dark">
       <i-submenu name="1" class="i-menu-right">
         <template slot="title"><Icon type="person"></Icon>{{user.userinfo.name}}</template>
-        <i-menu-item name="3-1">新增和启动</i-menu-item>
-        <i-menu-item name="3-2">活跃分析</i-menu-item>
-        <i-menu-item name="3-3">时段分析</i-menu-item>
+        <i-menu-item name="3-1">修改密码</i-menu-item>
+        <i-menu-item name="3-2" @click.native="logout">退出</i-menu-item>
       </i-submenu>
     </i-menu>
     <i-row>
       <i-col span="6">
-        <i-menu v-if="user" theme="light" active-name="1" class="home-side">
+        <i-menu v-if="user" @on-select="changePage" theme="light" active-name="profile" class="home-side">
           <i-menu-group title="基本信息">
-            <i-menu-item name="1"><Icon type="document-text"></Icon>个人信息</i-menu-item>
-            <i-menu-item name="2"><Icon type="chatbubbles"></Icon>工资信息</i-menu-item>
+            <i-menu-item name="profile"><Icon type="document-text"></Icon>个人信息</i-menu-item>
+            <i-menu-item name="salary"><Icon type="chatbubbles"></Icon>工资信息</i-menu-item>
           </i-menu-group>
           <i-menu-group title="资产信息">
-            <i-menu-item name="3"><Icon type="document-text"></Icon>个人资产</i-menu-item>
+            <i-menu-item name="asset"><Icon type="document-text"></Icon>个人资产</i-menu-item>
           </i-menu-group>
           <i-menu-group title="休假信息">
-            <i-menu-item name="4"><Icon type="document-text"></Icon>申请休假</i-menu-item>
-            <i-menu-item name="5"><Icon type="document-text"></Icon>休假记录</i-menu-item>
+            <i-menu-item name="apply"><Icon type="document-text"></Icon>申请休假</i-menu-item>
+            <i-menu-item name="history"><Icon type="document-text"></Icon>休假记录</i-menu-item>
           </i-menu-group>
         </i-menu>
       </i-col>
@@ -33,7 +32,7 @@
 
 <script>
 import { mapGetters } from 'vuex'
-import { getJWTDecode } from '@/utils'
+import { getJWTDecode, removeAuthorization } from '@/utils'
 import { Row as iRow, Col as iCol } from 'iview/src/components/grid'
 import iMenu from 'iview/src/components/menu'
 import Icon from 'iview/src/components/icon'
@@ -48,9 +47,13 @@ export default {
       user: 'getUser'
     })
   },
-  data () {
-    return {
-      msg: 'Welcome to Your Vue.js App'
+  methods: {
+    logout () {
+      removeAuthorization()
+      this.$router.push('/sign-in')
+    },
+    changePage (name) {
+      this.$router.push(`/user/${name}`)
     }
   },
   components: {
@@ -68,6 +71,9 @@ export default {
     if (auth) {
       this.$store.dispatch('getUserDetail', {
         id: auth.user_id,
+        success () {
+          self.$router.push('/user/profile')
+        },
         error () {
           self.$router.push('/sign-in')
         }
@@ -84,6 +90,9 @@ export default {
 .home {
   .i-menu-right {
     float: right;
+  }
+  a {
+    color: #657180;
   }
 }
 </style>
