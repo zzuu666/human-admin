@@ -6,7 +6,8 @@ const state = {
 }
 
 const getters = {
-  getUser: state => state.user
+  getUser: state => state.user,
+  getUserVacation: state => state.user && state.user.userinfo && state.user.userinfo.vacation
 }
 
 const actions = {

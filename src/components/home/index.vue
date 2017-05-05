@@ -3,12 +3,13 @@
     <i-menu v-if="user" mode="horizontal" theme="dark">
       <i-submenu name="1" class="i-menu-right">
         <template slot="title"><Icon type="person"></Icon>{{user.userinfo.name}}</template>
-        <i-menu-item name="3-1">修改密码</i-menu-item>
-        <i-menu-item name="3-2" @click.native="logout">退出</i-menu-item>
+        <i-menu-item name="1-1" >修改密码</i-menu-item>
+        <i-menu-item name="1-2" @click.native="logout">退出</i-menu-item>
       </i-submenu>
+      <i-menu-item name="2" class="i-menu-right">签到</i-menu-item>
     </i-menu>
     <i-row>
-      <i-col span="6">
+      <i-col span="5">
         <i-menu v-if="user" @on-select="changePage" theme="light" active-name="profile" class="home-side">
           <i-menu-group title="基本信息">
             <i-menu-item name="profile"><Icon type="document-text"></Icon>个人信息</i-menu-item>
@@ -23,7 +24,7 @@
           </i-menu-group>
         </i-menu>
       </i-col>
-      <i-col span="18">
+      <i-col class="home-content" span="19">
         <router-view></router-view>
       </i-col>
     </i-row>
@@ -93,6 +94,9 @@ export default {
   }
   a {
     color: #657180;
+  }
+  .home-content {
+    padding-top: 40px;
   }
 }
 </style>

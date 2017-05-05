@@ -4,6 +4,7 @@ import * as actions from './actions'
 import * as getters from './getters'
 import user from './modules/user'
 import salary from './modules/salary'
+import asset from './modules/asset'
 
 Vue.use(Vuex)
 
@@ -14,7 +15,8 @@ export default new Vuex.Store({
   getters,
   modules: {
     user,
-    salary
+    salary,
+    asset
   },
   strict: debug
 })
