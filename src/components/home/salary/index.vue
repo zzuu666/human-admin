@@ -11,7 +11,6 @@
 <script>
 import { Row as iRow, Col as iCol } from 'iview/src/components/grid'
 import { getJWTDecode } from '@/utils'
-import { mapGetters } from 'vuex'
 import iTable from 'iview/src/components/table'
 
 export default {
@@ -46,14 +45,22 @@ export default {
         {
           title: '法定税',
           key: 'tax'
+        },
+        {
+          title: '小计',
+          key: 'remain'
         }
       ]
     }
   },
   computed: {
-    ...mapGetters({
-      salarys: 'salaryList'
-    })
+    salarys () {
+      let arr = this.$store.getters.salaryList.slice()
+      for (let i = 0, len = arr.length; i < len; i++) {
+        arr[i].remain = arr[i].salary - arr[i].pension - arr[i].medical - arr[i].unemployment - arr[i].housing - arr[i].tax
+      }
+      return arr
+    }
   },
   components: {
     iTable,

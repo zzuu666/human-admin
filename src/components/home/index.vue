@@ -6,7 +6,7 @@
         <i-menu-item name="1-1" >修改密码</i-menu-item>
         <i-menu-item name="1-2" @click.native="logout">退出</i-menu-item>
       </i-submenu>
-      <i-menu-item name="2" class="i-menu-right">签到</i-menu-item>
+      <i-menu-item name="2" @click.native="attendance" class="i-menu-right">签到</i-menu-item>
     </i-menu>
     <i-row>
       <i-col span="5">
@@ -33,7 +33,7 @@
 
 <script>
 import { mapGetters } from 'vuex'
-import { getJWTDecode, removeAuthorization } from '@/utils'
+import { getJWTDecode, removeAuthorization, fetch } from '@/utils'
 import { Row as iRow, Col as iCol } from 'iview/src/components/grid'
 import iMenu from 'iview/src/components/menu'
 import Icon from 'iview/src/components/icon'
@@ -55,6 +55,18 @@ export default {
     },
     changePage (name) {
       this.$router.push(`/user/${name}`)
+    },
+    attendance () {
+      fetch(`human/attendances`, 'post', {
+        user: this.user.id,
+        status: 1
+      }, (res) => {
+        this.$Message.success('签到成功')
+      }, (err) => {
+        if (err.response) {
+          this.$Message.error('签到失败')
+        }
+      })
     }
   },
   components: {
