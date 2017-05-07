@@ -1,17 +1,17 @@
 import { fetch } from '@/utils'
 
 const state = {
-  asset: []
+  attendance: []
 }
 
 const getters = {
-  assetList: state => state.asset
+  attendanceList: state => state.attendance
 }
 
 const actions = {
-  getAssetList ({ commit }, { id, error, success }) {
-    fetch(`human/assets/${id}`, 'get', {}, (res) => {
-      commit('saveAssetList', res.data)
+  getAttendanceList ({ commit }, { id, error, success }) {
+    fetch(`human/attendances/${id}`, 'get', {}, (res) => {
+      commit('saveAttendanceList', res.data)
       success && success()
     }, (err) => {
       if (err.response) {
@@ -23,11 +23,11 @@ const actions = {
 }
 
 const mutations = {
-  saveAssetList (state, data) {
-    state.asset = data
+  saveAttendanceList (state, data) {
+    state.attendance = data
   },
   errorHandle (state) {
-    state.asset = []
+    state.attendance = []
   }
 }
 

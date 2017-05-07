@@ -27,7 +27,7 @@ const mutations = {
     state.salary = data
   },
   errorHandle (state) {
-    state.salary = null
+    state.salary = []
   }
 }
 
