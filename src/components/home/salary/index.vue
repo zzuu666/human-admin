@@ -55,10 +55,14 @@ export default {
   },
   computed: {
     salarys () {
-      let arr = this.$store.getters.salaryList.slice()
-      for (let i = 0, len = arr.length; i < len; i++) {
-        arr[i].remain = arr[i].salary - arr[i].pension - arr[i].medical - arr[i].unemployment - arr[i].housing - arr[i].tax
-      }
+      let arr = this.$store.getters.salaryList.map((el) => {
+        let obj = Object.create(null)
+        for (let key in el) {
+          obj[key] = el[key]
+        }
+        obj.remain = obj.salary - obj.pension - obj.medical - obj.unemployment - obj.housing - obj.tax
+        return obj
+      })
       return arr
     }
   },
