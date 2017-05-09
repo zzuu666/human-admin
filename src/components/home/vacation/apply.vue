@@ -9,16 +9,16 @@
           <Form-item label="选择日期">
             <Row>
               <Col span="11">
-                <Date-picker type="date" placeholder="开始日期"></Date-picker>
+                <Date-picker :options="disable" @on-change="selectStartDay" type="date" placeholder="开始日期"></Date-picker>
               </Col>
               <Col span="2" style="text-align: center">-</Col>
               <Col span="11">
-                <Date-picker type="date" placeholder="结束日期"></Date-picker>
+                <Date-picker :options="disable" @on-change="selectEndDay" type="date" placeholder="结束日期"></Date-picker>
               </Col>
             </Row>
           </Form-item>
           <Form-item>
-            <Button type="primary">提交</Button>
+            <Button type="primary" @click="submit">提交</Button>
           </Form-item>
         </Form>
       </Col>
@@ -28,11 +28,42 @@
 </template>
 
 <script>
+import { fetch } from '../../../utils'
+
 export default {
   name: 'vacationApply',
   data () {
     return {
-      msg: 'Welcome to Your Vue.js App'
+      disable: {
+        disabledDate (date) {
+          return date && date.valueOf() < Date.now() - 86400000
+        }
+      },
+      start: '',
+      end: ''
+    }
+  },
+  methods: {
+    selectStartDay (value) {
+      this.start = value
+    },
+    selectEndDay (value) {
+      this.end = value
+    },
+    submit () {
+      fetch('human/vacation', 'post', {
+        user: this.$store.getters.getUserId,
+        start: this.start,
+        end: this.end
+      }, (res) => {
+        if (res.error) {
+          this.$Message.error('提交失败')
+        } else {
+          this.$Message.success('提交成功')
+        }
+      }, () => {
+        this.$Message.error('提交失败')
+      })
     }
   },
   computed: {

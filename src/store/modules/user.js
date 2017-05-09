@@ -7,6 +7,7 @@ const state = {
 
 const getters = {
   getUser: state => state.user,
+  getUserId: state => state.user && state.user.id,
   getUserVacation: state => state.user && state.user.userinfo && state.user.userinfo.vacation
 }
 
