@@ -14,6 +14,7 @@
           <i-menu-group title="基本信息">
             <i-menu-item name="profile"><Icon type="document-text"></Icon>个人信息</i-menu-item>
             <i-menu-item name="salary"><Icon type="chatbubbles"></Icon>工资信息</i-menu-item>
+            <i-menu-item name="message"><Icon type="chatbubbles"></Icon><Badge :dot="dot">收件箱 </Badge></i-menu-item>
           </i-menu-group>
           <i-menu-group title="资产信息">
             <i-menu-item name="asset"><Icon type="document-text"></Icon>个人资产</i-menu-item>
@@ -45,7 +46,8 @@ export default {
   name: 'home',
   computed: {
     ...mapGetters({
-      user: 'getUser'
+      user: 'getUser',
+      dot: 'hasNotRead'
     })
   },
   methods: {

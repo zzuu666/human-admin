@@ -30,11 +30,11 @@ export function getJWTDecode () {
   return decode
 }
 /**
- * POST 请求封装函数
- * @param {string} url
- * @param {object} payload
- * @param {function} success
- * @param {function} error
+ * AJAX 请求封装函数
+ * @param {string} url 请求路径
+ * @param {object} payload 请求参数
+ * @param {function} success 成功回调函数
+ * @param {function} error 失败请求函数
  */
 export function fetch (url, method, payload, success, error) {
   axios({

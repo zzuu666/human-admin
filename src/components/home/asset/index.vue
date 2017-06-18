@@ -10,7 +10,8 @@
 
 <script>
 import { Row as iRow, Col as iCol } from 'iview/src/components/grid'
-import { getJWTDecode } from '@/utils'
+import { getJWTDecode, fetch } from '@/utils'
+import { mapGetters } from 'vuex'
 import iTable from 'iview/src/components/table'
 
 export default {
@@ -43,7 +44,11 @@ export default {
           title: '操作',
           align: 'center',
           render (row, column, index) {
-            return `<i-button type="primary" size="small" @click="show(${index})">归还</i-button>`
+            if (!row.back) {
+              return `<i-button type="primary" size="small" @click="show(${index})">归还</i-button>`
+            } else {
+              return `<i-button type="primary" disabled size="small">已归还</i-button>`
+            }
           }
         }
       ]
@@ -56,7 +61,13 @@ export default {
   },
   methods: {
     show (index) {
-      console.log(index)
+      fetch('human/message/send', 'post', {
+        sender: this.id,
+        type: 'return',
+        content: `您部门员工${this.user.first_name} ${this.user.last_name}, 申请归还物品${this.assetList[index].name}, 物品编号为${this.assetList[index].mark}`,
+        key: this.assetList[index].id
+      })
+      console.log(this.assetList[index].name, this.assetList[index].mark)
     }
   },
   computed: {
@@ -68,10 +79,15 @@ export default {
         obj.date = el.asset.purchase
         obj.borrow = el.borrow
         obj.back = el.back
+        obj.id = el.id
         return obj
       })
       return arr
-    }
+    },
+    ...mapGetters({
+      id: 'getUserId',
+      user: 'getUser'
+    })
   },
   created () {
     let auth = getJWTDecode()

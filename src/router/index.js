@@ -5,6 +5,7 @@ import SignIn from '@/components/sign-in'
 import Salary from '@/components/home/salary'
 import Profile from '@/components/home/profile'
 import Asset from '@/components/home/asset'
+import Message from '@/components/home/message'
 import VacationApply from '@/components/home/vacation/apply'
 import VacationHistory from '@/components/home/vacation/history'
 
@@ -20,6 +21,10 @@ let router = new Router({
         {
           path: 'profile',
           component: Profile
+        },
+        {
+          path: 'message',
+          component: Message
         },
         {
           path: 'salary',

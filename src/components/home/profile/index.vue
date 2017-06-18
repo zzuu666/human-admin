@@ -57,7 +57,7 @@
 </template>
 
 <script>
-import { fetch } from '@/utils'
+import { getJWTDecode, fetch } from '@/utils'
 import { mapGetters } from 'vuex'
 import { Row as iRow, Col as iCol } from 'iview/src/components/grid'
 import iAlert from 'iview/src/components/alert'
@@ -126,6 +126,12 @@ export default {
     iSwitch,
     iButton,
     iAlert
+  },
+  created () {
+    let auth = getJWTDecode()
+    this.$store.dispatch('getMessageList', {
+      id: auth.user_id
+    })
   }
 }
 </script>
