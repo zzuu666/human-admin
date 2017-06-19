@@ -1,8 +1,9 @@
 <template>
   <div class="sign-in">
+    <div class="sign-in-header">员工平台登录</div>
     <i-input v-model="account"><span slot="prepend">账号</span></i-input>
     <i-input v-model="password" type="password"><span slot="prepend">密码</span></i-input>
-    <i-button @click="submit" type="primary">登录</i-button>
+    <i-button @click="submit" type="primary" long>登录</i-button>
   </div>
 </template>
 
@@ -22,16 +23,23 @@ export default {
   methods: {
     submit () {
       removeAuthorization()
+      if (!this.account || !this.password) {
+        this.$Notice.error({
+          title: '账户名密码不能为空'
+        })
+        return
+      }
       fetch('human/auth', 'post', {
         username: this.account,
         password: this.password
       }, (res) => {
         setStorage('token', res.data.token)
-        console.log('login success')
         this.$router.push({ path: '/user' })
       }, (error) => {
         if (error.response) {
-          console.log(error.response.data)
+          this.$Notice.error({
+            title: '账户名密码填写有误'
+          })
         }
       })
     }
@@ -47,11 +55,34 @@ export default {
 <style lang="less" scoped>
 .sign-in {
   position: relative;
-  margin-top: 30%;
-  width: 240px;
+  top: 80px;
+  width: 380px;
+  padding: 54px 20px 20px 20px;
   margin: 0 auto;
+  border: 2px solid #dfdfdf;
+  border-radius: 8px;
+  overflow: hidden;
   .ivu-input-wrapper {
-    margin: 8px 0;
+    margin: 12px 0;
+  }
+  .ivu-btn-primary {
+    color: #fff;
+    background-color: rgb(96, 154, 182);
+    border-color: #39f;
+  }
+  &-header {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 50px;
+    background: rgb(65, 118, 144);
+    margin-bottom: 40px;
+    line-height: 40px;
+    font-size: 16px;
+    padding: 5px 16px;
+    text-align: left;
+    color: #fff;
   }
 }
 

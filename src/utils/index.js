@@ -78,3 +78,17 @@ export function messageSend (payload, vm) {
   })
 }
 
+/**
+ * 计算两日期之间天数
+ * @param {string} start 开始日期格式 y-m-d
+ * @param {*} end 结束日期格式 y-m-d
+ */
+export function dateDiff (start, end) {
+  let startArr = start.split('-')
+  let endArr = end.split('-')
+  let startValue = (new Date(startArr[0], startArr[1] - 1, startArr[2])).valueOf()
+  let endValue = (new Date(endArr[0], endArr[1] - 1, endArr[2])).valueOf()
+
+  return (endValue - startValue) / 1000 / 60 / 60 / 24
+}
+

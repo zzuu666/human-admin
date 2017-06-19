@@ -28,7 +28,7 @@
 </template>
 
 <script>
-import { fetch } from '../../../utils'
+import { messageSend, dateDiff } from '../../../utils'
 
 export default {
   name: 'vacationApply',
@@ -51,24 +51,26 @@ export default {
       this.end = value
     },
     submit () {
-      fetch('human/vacation', 'post', {
-        user: this.$store.getters.getUserId,
-        start: this.start,
-        end: this.end
-      }, (res) => {
-        if (res.error) {
-          this.$Message.error('提交失败')
-        } else {
-          this.$Message.success('提交成功')
-        }
-      }, () => {
-        this.$Message.error('提交失败')
-      })
+      if (dateDiff(this.start, this.end) + 1 > this.vacation) {
+        this.$Notice.warning({
+          title: '年假余额不足'
+        })
+        return
+      }
+      messageSend({
+        sender: this.userinfo.id,
+        type: 'leave',
+        content: `您部门员工${this.userinfo.userinfo.name}申请休假 ${this.start} 至 ${this.end}`,
+        key: -1
+      }, this)
     }
   },
   computed: {
     vacation () {
       return this.$store.getters.getUserVacation
+    },
+    userinfo () {
+      return this.$store.getters.getUser
     }
   }
 }

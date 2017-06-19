@@ -126,6 +126,31 @@ export default {
         }, () => {
           this.$Message.info('操作异常')
         })
+      } else if (message.message_type === '请假') {
+        let start = message.content.split(' ')[1]
+        let end = message.content.split(' ')[3]
+        fetch('human/vacation', 'post', {
+          user: message.senderId,
+          start,
+          end
+        }, (res) => {
+          if (res.error) {
+            this.$Message.error('提交失败')
+          } else {
+            this.$Message.success('提交成功')
+            messageSend({
+              sender: message.to,
+              to: message.senderId,
+              type: 'read',
+              content: '回复: ' + message.content + ' 审批通过',
+              key: message.key
+            }, this)
+            messageOptions(message.id, 'result', this)
+            this.modal = false
+          }
+        }, () => {
+          this.$Message.error('提交失败')
+        })
       }
     },
     cancel () {
@@ -154,6 +179,8 @@ export default {
         }, () => {
           this.$Message.info('操作异常')
         })
+      } else if (message.message_type === '请假') {
+
       }
     }
   },
