@@ -51,3 +51,30 @@ export function fetch (url, method, payload, success, error) {
   )
 }
 
+export function messageOptions (id, type, vm) {
+  let auth = getJWTDecode()
+  fetch(`human/message/${type}/${id}`, 'put', {}, (data) => {
+    if (!data.error) {
+      vm.$store.dispatch('getMessageList', {
+        id: auth.user_id
+      })
+    }
+  })
+}
+
+export function messageSend (payload, vm) {
+  let auth = getJWTDecode()
+  console.log(payload)
+  fetch('human/message/send', 'post', payload, (data) => {
+    if (!data.error) {
+      vm.$store.dispatch('getMessageList', {
+        id: auth.user_id
+      })
+    } else {
+      vm.$Message.warning('操作异常')
+    }
+  }, () => {
+    vm.$Message.warning('操作异常')
+  })
+}
+
